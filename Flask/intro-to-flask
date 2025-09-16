@@ -1,0 +1,12 @@
+Flask is a lightweight python based web framework used to build web applications and API
+its also known as micro-framework because it does not force you to any specific tool or libraries you add what you need.
+
+Why Use it.
+1.Easy to learn and minimal bilerplate
+2.Flexible you decice database authentication , templates etc.
+3.Good for samll to medium app,APIs and as starting point for bigger system.
+4.Building Rest APIs
+5.Dashboards
+6.Serving machine learning models.
+7.Backend apps.
+
