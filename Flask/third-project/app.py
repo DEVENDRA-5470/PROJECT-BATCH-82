@@ -24,6 +24,7 @@ def stu_reg():
         return render_template("stu_reg.html")
     
     else:
+        
         return render_template("stu_reg.html")
     
 
