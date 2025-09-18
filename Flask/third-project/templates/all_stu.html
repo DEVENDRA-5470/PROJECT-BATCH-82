@@ -1,15 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+{% extends "base.html" %}
 
-</head>
-<body>
-    
-
+{% block content %}
+  
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg p-6">
     <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -26,9 +18,10 @@
                 <th scope="col" class="px-6 py-3">
                     STU-PASSWORD
                 </th>
-                <!-- <th scope="col" class="px-6 py-3">
-                    <span class="sr-only">Edit</span>
-                </th> -->
+                <th scope="col" class="px-6 py-3">
+                    ACTION
+                </th>
+               
             </tr>
         </thead>
         <tbody>
@@ -46,6 +39,9 @@
                 <td class="px-6 py-4">
                     {{data.SPASS}}
                 </td>
+                <td class="px-6 py-4">
+                    <a class="bg-red-500 text-white p-2" href="{{url_for('delete_stu',id=data.SID)}}" onclick="return confirm('Are you Sure to delete data.')" >Delete</a>
+                </td>
               
             </tr>
             {% endfor %}
@@ -54,5 +50,5 @@
     </table>
 </div>
 
-</body>
-</html>
+{% endblock content %}
+

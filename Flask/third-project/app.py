@@ -16,7 +16,7 @@ def stu_reg():
                     values=(full_name,email,password)
                     cursor.execute(query,values)
                     conn.commit()
-                    return "Data added successfully"
+                    return redirect(url_for('get_all_stu'))
         except Exception as e:
              print("Error :",e)
         finally:
@@ -43,6 +43,25 @@ def get_all_stu():
     finally:
             conn.close()
     return render_template("all_stu.html",users=user)
+
+
+# Delete data
+
+@app.route('/delete/<int:id>')
+def delete_stu(id):
+    print(id)
+    try:
+        conn=get_connection(DB_NAME)
+        cur=conn.cursor()
+        query=f"DELETE FROM STUDENTS WHERE SID={id}"
+        cur.execute(query)
+        conn.commit()
+        return redirect(url_for('get_all_stu'))
+    except Exception as e:
+         print(e)
+    return f"Data not deleted"
+      
+
      
 
 app.run(debug=True)
