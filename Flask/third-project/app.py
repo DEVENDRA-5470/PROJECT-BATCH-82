@@ -98,6 +98,43 @@ def edit_user(id):
         return render_template("edit_stu.html",users=user)
       
 
+# Searching 
+@app.route("/search")
+def search_data():
+    query=request.args.get('query')
+    user=[]
+    conn=get_connection(DB_NAME)
+    if query:
+        try:
+            with conn.cursor() as cursor:
+                    query=F'''SELECT * FROM STUDENTS WHERE SID={query}'''
+                    cursor.execute(query)
+                    for i in cursor.fetchall():
+                        user.append(i)
+                    
+        except Exception as e:
+                print("Error :",e)
+        finally:
+                conn.close()
+        
+        return render_template("all_stu.html",users=user)
+    else:
+          user=[]
+    conn=get_connection(DB_NAME)
+    try:
+        with conn.cursor() as cursor:
+                query='''SELECT * FROM STUDENTS'''
+                cursor.execute(query)
+                for i in cursor.fetchall():
+                      user.append(i)
+                
+    except Exception as e:
+             print("Error :",e)
+    finally:
+            conn.close()
+    return render_template("all_stu.html",users=user)
+          
+
      
 
 app.run(debug=True)
