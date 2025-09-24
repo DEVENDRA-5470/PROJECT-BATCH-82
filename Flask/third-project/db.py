@@ -39,3 +39,6 @@ def init_db():
         print("Error :",e)
     finally:
         conn.close()
+
+# def db_table_alter():
+
