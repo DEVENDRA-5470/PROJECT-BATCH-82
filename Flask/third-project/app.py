@@ -135,6 +135,9 @@ def search_data():
     return render_template("all_stu.html",users=user)
           
 
-     
+@app.route("/dashboard")
+def dashboard():
+     count=4
+     return render_template("dashboard.html",counts=count)
 
 app.run(debug=True)
