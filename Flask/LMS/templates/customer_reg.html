@@ -1,31 +1,58 @@
 {% extends "base.html" %}
 
 {% block content %}
-  
-    <section class="text-gray-600 body-font mt-10 ml-110">
-  
-    <form method="POST">
+
+<section class="text-gray-600 body-font mt-10 ml-110">
+
+  <form method="POST">
     <div class=" md:w-1/2 bg-gray-100 rounded-lg p-8 w-full mt-10 md:mt-0">
       <h2 class="text-gray-900 text-lg font-medium title-font mb-5">Registration</h2>
       <div class="relative mb-4">
         <label for="full-name" class="leading-7 text-sm text-gray-600">Full Name</label>
-        <input type="text" id="full-name"  name="full-name" class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
-        placeholder="Full Name" required>
+        <input type="text" id="full-name" name="full-name"
+          class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+          placeholder="Full Name" required>
       </div>
       <div class="relative mb-4">
         <label for="email" class="leading-7 text-sm text-gray-600">Email</label>
-        <input type="email" id="email" name="email" class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
-        placeholder="Email" required>
+        <input type="email" id="email" name="email"
+          class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+          placeholder="Email" required>
       </div>
       <div class="relative mb-4">
         <label for="password" class="leading-7 text-sm text-gray-600">Password</label>
-        <input type="password" id="password" name="password" class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
-        placeholder="Password" required>
+        <input type="password" id="password" name="password"
+          class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+          placeholder="Password" required>
       </div>
-      <button class="text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">Register now</button>
+
+      <div class="flex flex-wrap">
+        <label for="password" class="leading-7 text-sm  text-gray-600">Gender</label>
+        <div class="flex items-center me-4 ml-2">
+          <input id="red-radio" type="radio" value="male" name="gender" class="w-4 h-4 text-red-600 bg-gray-100 ">
+          <label for="red-radio" class="ms-2 text-sm font-medium ">Male</label>
+        </div>
+        <div class="flex items-center me-4">
+          <input id="green-radio" type="radio" value="female" name="gender"
+            class="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+          <label for="red-radio" class="ms-2 text-sm font-medium ">Female</label>
+        </div>
+
+
+      </div>
+
+      <div class="relative mb-4 mt-2">
+        <label for="password" class="leading-7 text-sm text-gray-600">Phone number</label>
+        <input typ e="number" id="password" name="phone"
+          class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+          placeholder="Phone number" required>
+      </div>
+      <button
+        class="text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">Register
+        now</button>
       <p class="text-xs text-gray-500 mt-3">Literally you probably haven't heard of them jean shorts.</p>
     </div>
-    </form>
+  </form>
   </div>
 </section>
 {% endblock content %}

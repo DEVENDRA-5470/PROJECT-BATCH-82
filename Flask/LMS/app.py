@@ -15,8 +15,14 @@ with app.app_context():
 def home():
     return render_template("home.html")
 
-@app.route("/sign_up")
+@app.route("/sign_up",methods=["GET","POST"])
 def customer_reg():
+    name=request.form.get('full-name')
+    email=request.form.get('email')
+    password=request.form.get('password')
+    gender=request.form.get('gender')
+    phone=request.form.get('phone')
+    print(name,email,password,gender,phone)
     return render_template("customer_reg.html")
 
 if __name__=="__main__":
