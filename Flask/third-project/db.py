@@ -32,6 +32,7 @@ def init_db():
                     SFULL_NAME VARCHAR(100) NOT NULL,
                     SEMAIL VARCHAR(50) UNIQUE NOT NULL,
                     SPASS VARCHAR(20) NOT NULL);
+                           
                 ''')
         conn.commit()
 
