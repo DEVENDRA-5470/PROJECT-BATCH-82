@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block content %}
+  
+<div class="relative overflow-x-auto shadow-md sm:rounded-lg p-6">
+    <form method="GET" action="/search">
+    <input name="query" class="bg-gray-50 border p-2 m-2" type="text">
+    <button type="submit" class="bg-green-500 p-2 text-white cursor-pointer">Search</button>
+    
+    </form>
+    <a href="{{url_for('delete_customer_all')}}"> 
+    <button type="submit" class=" ml-315 mb-3 bg-red-500 p-2 text-white cursor-pointer">Delete All</button>
+    </a>
+    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+                <th scope="col" class="px-6 py-3">
+                    CUS-ID
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    CUS-NAME
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    CUS-EMAIL
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    CUS-GENDER
+                </th>
+                 <th scope="col" class="px-6 py-3">
+                    CUS-PHONE
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    ACTION
+                </th>
+               
+            </tr>
+        </thead>
+        <tbody>
+            {% for data in users %}
+              <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    {{data.id}}
+                </th>
+                <td class="px-6 py-4">
+                    {{data.name}}
+                </td>
+                <td class="px-6 py-4">
+                    {{data.email}}
+                </td>
+                <td class="px-6 py-4">
+                    {{data.gender}}
+                </td>
+                <td class="px-6 py-4">
+                    {{data.phone}}
+                </td>
+                <td class="px-6 py-4">
+                    <a class="bg-red-500 text-white p-2" href="{{url_for('delete_customer',id=data.id)}}" onclick="return confirm('Are you Sure to delete data.')" >Delete</a>
+                    <br>
+                    <br>
+                    <a class="bg-green-500 text-white p-2" href="{{url_for('update_customer',id=data.id)}}">Update</a>
+                </td>
+              
+            </tr>
+            {% endfor %}
+          
+            
+        </tbody>
+    </table>
+</div>
+
+{% endblock content %}

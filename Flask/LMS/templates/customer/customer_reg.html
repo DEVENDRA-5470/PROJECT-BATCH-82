@@ -6,6 +6,13 @@
 
   <form method="POST">
     <div class=" md:w-1/2 bg-gray-100 rounded-lg p-8 w-full mt-10 md:mt-0">
+        {% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for message in messages %}
+          <p class="text-red-500">{{message}}</p>
+        {% endfor %}
+    {% endif %}
+  {% endwith %}
       <h2 class="text-gray-900 text-lg font-medium title-font mb-5">Registration</h2>
       <div class="relative mb-4">
         <label for="full-name" class="leading-7 text-sm text-gray-600">Full Name</label>

@@ -1,0 +1,24 @@
+📚 Welcome to MyLibrary.com! 🎉
+
+Hi {username} 👋,
+We're thrilled to have you join our community of book lovers! 📖✨
+Your registration was successful! Here are your details:
+
+🔹 Username:{username}
+🔹 Email: {email}
+🔹 Phone: {phone}
+
+🔒 Your password is securely stored and protected.
+
+Now you’re all set to:
+✅ Explore thousands of books
+✅ Create your personal bookshelf
+✅ Track your reading journey
+✅ Get personalized recommendations
+
+Let the adventures begin! 🚀📚
+
+If you have any questions or need support, we’re always here to help 💬
+
+Happy Reading! 💙
+— The MyLibrary.com Team
