@@ -1,4 +1,4 @@
-from flask import *
+from flask import * 
 from flask_sqlalchemy import SQLAlchemy
 from customer.models import *
 from send_mail import *
@@ -93,6 +93,25 @@ def update_customer(id):
         return redirect(url_for('all_customer'))
     else:
         return render_template("customer/update-customer.html",data=data)
+    
+@app.route("/customer-login",methods=["GET","POST"])
+def customer_login():
+    if request.method=="POST":
+        email=request.form.get("email")
+        password=request.form.get("password")
+        user=Customer.query.filter_by(email=email,password=password).first()
+        if not user:
+            flash("Wrong credentials")
+            return render_template("customer/customer-login.html")
+        session["user_name"]=user.name
+        session["user_id"]=user.id
+        return redirect(url_for('all_customer'))
+    return render_template("customer/customer-login.html")
+
+@app.route('/logout')
+def user_logout():
+    session.clear()
+    return redirect(url_for('customer_login'))
 
 
 if __name__=="__main__":
