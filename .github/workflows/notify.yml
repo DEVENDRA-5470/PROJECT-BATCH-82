@@ -6,13 +6,12 @@ jobs:
     steps:
       - name: Send Telegram Message
         run: |
+          TEXT="NEW PUSH%0A"
+          TEXT="${TEXT}Repo   : ${{ github.repository }}%0A"
+          TEXT="${TEXT}Branch : ${{ github.ref_name }}%0A"
+          TEXT="${TEXT}By     : ${{ github.actor }}%0A"
+          TEXT="${TEXT}Commit : ${{ github.event.commits[0].message }}%0A"
+          TEXT="${TEXT}Link   : ${{ github.event.compare }}"
           curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage" \
-          -d chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" \
-          -d parse_mode="HTML" \
-          -d text="🚀 <b>NEW PUSH</b>
-
-📦 Repo   : ${{ github.repository }}
-🌿 Branch : ${{ github.ref_name }}
-👤 By     : ${{ github.actor }}
-💬 Commit : ${{ github.event.commits[0].message }}
-🔗 Link   : ${{ github.event.compare }}"
+            -d chat_id="${{ secrets.TELEGRAM_CHAT_ID }}" \
+            -d text="${TEXT}"
