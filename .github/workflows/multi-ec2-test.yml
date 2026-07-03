@@ -5,7 +5,7 @@ on:
 
 permissions:
   id-token: write
-  contents: read
+  contents: write
 
 env:
   AWS_REGION: us-east-1
@@ -14,6 +14,9 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
       - name: AWS Login via OIDC
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -36,46 +39,41 @@ jobs:
             --query 'Command.CommandId' --output text)
           echo "cmd_id=$CMD_ID" >> $GITHUB_OUTPUT
 
-      - name: Generate log.txt with all EC2 details
+      - name: Generate log.txt
         run: |
           sleep 15
 
-          echo "==================================================" > log.txt
-          echo " DEPLOYMENT LOG - Run #${{ github.run_number }}"   >> log.txt
-          echo " Date: $(date)"                                    >> log.txt
-          echo " Triggered by: ${{ github.actor }}"                >> log.txt
-          echo " Repo: ${{ github.repository }}"                   >> log.txt
-          echo "==================================================" >> log.txt
-          echo ""                                                   >> log.txt
+          # Fail-fast: agar koi instance target nahi hua toh job RED ho
+          COUNT=$(aws ssm list-command-invocations \
+            --command-id "${{ steps.send.outputs.cmd_id }}" \
+            --query "length(CommandInvocations)" --output text)
 
-          # Har instance ka detail nikalo aur log mein daalo
-          for INSTANCE in $(aws ssm list-command-invocations \
+          if [ "$COUNT" -eq 0 ]; then
+            echo "::error::No instances matched tag App=flask — check tags!"
+            exit 1
+          fi
+
+          {
+            echo "=================================================="
+            echo " DEPLOYMENT LOG - Run #${{ github.run_number }}"
+            echo " Date: $(date)"
+            echo " Triggered by: ${{ github.actor }}"
+            echo " Instances targeted: $COUNT"
+            echo "=================================================="
+            echo ""
+            aws ssm list-command-invocations \
               --command-id "${{ steps.send.outputs.cmd_id }}" \
-              --query "CommandInvocations[*].InstanceId" --output text); do
+              --details \
+              --query "CommandInvocations[*].{Instance:InstanceId,Status:Status,Output:CommandPlugins[0].Output}" \
+              --output table
+          } > log.txt
 
-            STATUS=$(aws ssm get-command-invocation \
-              --command-id "${{ steps.send.outputs.cmd_id }}" \
-              --instance-id "$INSTANCE" \
-              --query 'Status' --output text)
-
-            OUTPUT=$(aws ssm get-command-invocation \
-              --command-id "${{ steps.send.outputs.cmd_id }}" \
-              --instance-id "$INSTANCE" \
-              --query 'StandardOutputContent' --output text)
-
-            echo "---------- Instance: $INSTANCE ----------" >> log.txt
-            echo "Command Status: $STATUS"                    >> log.txt
-            echo "$OUTPUT"                                     >> log.txt
-            echo ""                                            >> log.txt
-          done
-
-          echo "=========== END OF LOG ===========" >> log.txt
-
-          # Console mein bhi dikhao
           cat log.txt
 
-      - name: Upload log.txt as artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: ec2-deployment-log-run-${{ github.run_number }}
-          path: log.txt
+      - name: Commit log.txt to repo
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add log.txt
+          git diff --staged --quiet || git commit -m "Update deployment log - Run #${{ github.run_number }}"
+          git push
