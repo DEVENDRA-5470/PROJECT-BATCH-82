@@ -1,0 +1,43 @@
+name: Multi EC2 SSM Test
+
+on:
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  AWS_REGION: us-east-1
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: AWS Login via OIDC
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::720800607391:role/github-action-deploy-role
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Who am I (OIDC verify)
+        run: aws sts get-caller-identity
+
+      - name: Send command to ALL instances with tag App=flask
+        id: send
+        run: |
+          CMD_ID=$(aws ssm send-command \
+            --targets "Key=tag:App,Values=flask" \
+            --document-name "AWS-RunShellScript" \
+            --parameters '{"commands":["echo Ping from GitHub Actions on: $(hostname)", "date", "uptime"]}' \
+            --query 'Command.CommandId' --output text)
+          echo "cmd_id=$CMD_ID" >> $GITHUB_OUTPUT
+
+      - name: Show results from ALL targeted instances
+        run: |
+          sleep 15
+          aws ssm list-command-invocations \
+            --command-id "${{ steps.send.outputs.cmd_id }}" \
+            --details \
+            --query "CommandInvocations[*].{Instance:InstanceId,Status:Status,Output:CommandPlugins[0].Output}" \
+            --output table
